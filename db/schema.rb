@@ -10,7 +10,56 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_07_23_012041) do
+ActiveRecord::Schema.define(version: 2020_07_23_020508) do
+
+  create_table "albums", force: :cascade do |t|
+    t.string "title"
+    t.datetime "release_date"
+    t.integer "group_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["group_id"], name: "index_albums_on_group_id"
+  end
+
+  create_table "comments", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.text "message"
+    t.integer "translation_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["translation_id"], name: "index_comments_on_translation_id"
+    t.index ["user_id"], name: "index_comments_on_user_id"
+  end
+
+  create_table "groups", force: :cascade do |t|
+    t.string "title"
+    t.text "profile"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "songs", force: :cascade do |t|
+    t.string "title"
+    t.text "korean_lyrics"
+    t.text "romaja_lyrics"
+    t.integer "album_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["album_id"], name: "index_songs_on_album_id"
+  end
+
+  create_table "translations", force: :cascade do |t|
+    t.string "title"
+    t.text "content"
+    t.string "language"
+    t.integer "like"
+    t.integer "song_id", null: false
+    t.integer "user_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["song_id"], name: "index_translations_on_song_id"
+    t.index ["user_id"], name: "index_translations_on_user_id"
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
@@ -26,4 +75,10 @@ ActiveRecord::Schema.define(version: 2020_07_23_012041) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "albums", "groups"
+  add_foreign_key "comments", "translations"
+  add_foreign_key "comments", "users"
+  add_foreign_key "songs", "albums"
+  add_foreign_key "translations", "songs"
+  add_foreign_key "translations", "users"
 end
