@@ -1,5 +1,6 @@
 class GroupsController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show]
+  before_action :admin_user, except: [:index, :show]
 
   def index
     @groups = Group.all.reverse
@@ -31,5 +32,11 @@ class GroupsController < ApplicationController
   private
   def group_params
     params.require(:group).permit(:title, :profile, albums_attributes: [:title, :release_date, songs_attributes: [:title, :korean_lyrics, :romaja_lyrics]])
+  end
+
+  def admin_user
+    unless current_user.admin? 
+      redirect_to new_user_session_path
+    end
   end
 end
