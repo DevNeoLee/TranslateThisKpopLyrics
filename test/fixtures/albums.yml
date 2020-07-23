@@ -1,0 +1,11 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  title: MyString
+  release_date: 2020-07-22 19:02:16
+  group: one
+
+two:
+  title: MyString
+  release_date: 2020-07-22 19:02:16
+  group: two
