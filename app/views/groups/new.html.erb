@@ -1,2 +1,26 @@
 <h1>Groups#new</h1>
-<p>Find me in app/views/groups/new.html.erb</p>
+
+<h1>Add New Groups, Albums, Songs </h1>
+<% if current_user.try(:admin?) %>
+    <%= form_with(model: @group, local: true) do |f| %>
+        <%= f.label :title, "Group Title: "%>
+        <%= f.text_field :title %><br>
+        <%= f.label :profile, "Group Profile: "%>
+        <%= f.text_field :profile %><br><br>
+        <%= f.fields_for :albums do |af| %>
+            <%= af.label :title, "Album Title: " %>
+            <%= af.text_field :title %><br>
+            <%= af.label :release_date, "Release Date: " %>
+            <%= af.date_field :release_date %><br>
+            <%= af.fields_for :songs do |sf| %>
+                <%= sf.label :title, "Song Title: " %>
+                <%= sf.text_field :title %><br>
+                <%= sf.label :korean_lyrics, "Korean Lyrics: " %>
+                <%= sf.text_area :korean_lyrics, size: "60x12"  %><br>
+                <%= sf.label :romanja_lyrics, "Romaja Lyrics: " %>
+                <%= sf.text_area :romaja_lyrics, size: "60x12"  %><br>
+            <% end %>  
+        <% end %>   
+        <%= f.submit "song create" %>
+    <% end %>
+<% end %>
