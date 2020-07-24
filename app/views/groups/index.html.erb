@@ -1,2 +1,28 @@
 <h1>Groups#index</h1>
 <p>Find me in app/views/groups/index.html.erb</p>
+<% if current_user.try(:admin?) %>
+    <%= link_to "Create/Add New Groups/Albums/Songs", new_group_path %>
+
+<% end %>
+
+<% @groups.each do |group| %>
+    <p class="group">Group Title: <%= group.title %></p>
+    <p>Profile: <%= group.profile %></p>
+        <%= link_to "edit", edit_group_path(group) %> |
+        <%= link_to "delete", group_path(group), method: :delete %>
+    <% group.albums.each do |album| %>
+        <p class="album">album name: <%=album.title %></p>
+        <p>release date: <%=album.release_date %></p>
+        <%= link_to "edit" %> |
+        <%= link_to "delete", album_path(album), method: :delete %>
+        <% album.songs.each do |song| %>
+            <p class="song">song title: <%= song.title %></p>
+            <p>korean lyrics: <%= song.korean_lyrics %></p>
+            <p>romaja lyrics: <%= song.romaja_lyrics %></p>
+            <p>album id: <%= song.album_id %></p>
+            <%= link_to "edit" %> |
+            <%= link_to "delete", song_path(song), method: :delete %>
+        <% end %>
+    <% end %>
+<% end %>
+
