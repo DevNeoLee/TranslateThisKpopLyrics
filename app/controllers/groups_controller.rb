@@ -4,8 +4,6 @@ class GroupsController < ApplicationController
 
   def index
     @groups = Group.all.reverse
-    @albums = Album.all.reverse
-    @songs = Song.all.reverse 
   end
 
   def new
@@ -13,9 +11,22 @@ class GroupsController < ApplicationController
     @group.albums.build.songs.build 
   end
 
+  # def show 
+  #   @group = Group.find(group_params[:id])
+  # end
+
+  def edit 
+    @group = Group.find(group_params[:id])
+  end
+
+  def update 
+    @group.title = group_params[:title]
+    @group.profile = group_params[:profile]
+    @group.save 
+  end
+
   def create
     group = Group.new(group_params)
-
     if group.save! 
       redirect_to root_path
     else 
@@ -24,14 +35,17 @@ class GroupsController < ApplicationController
   end
 
   def destroy
-    Group.destroy(group_params[:group_id])
-
-    redirect_to root_path
+    @group = Group.find(params[:id])
+    if @group.destroy
+      redirect_to root_path
+    else 
+      raise params.inspect
+    end
   end
 
   private
   def group_params
-    params.require(:group).permit(:title, :profile, albums_attributes: [:title, :release_date, songs_attributes: [:title, :korean_lyrics, :romaja_lyrics]])
+    params.require(:group).permit(:title, :profile, albums_attributes: [:title, :release_date, :id, :_destroy, songs_attributes: [:title, :korean_lyrics, :romaja_lyrics, :id, :_destroy]])
   end
 
   def admin_user
