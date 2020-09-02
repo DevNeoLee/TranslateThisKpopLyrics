@@ -1,4 +1,4 @@
 class Song < ApplicationRecord
   belongs_to :album
-  has_many :songs
+  has_many :translations, dependent: :destroy
 end

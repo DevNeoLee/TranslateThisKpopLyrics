@@ -8,7 +8,7 @@ Rails.application.routes.draw do
 
   resources :groups 
   resources :albums, only: [:edit, :update, :destroy]
-  resources :songs, only: [:edit, :update, :destroy]
+  resources :songs, only: [:edit, :update, :destroy, :show]
   # resources :songs  
 
 end

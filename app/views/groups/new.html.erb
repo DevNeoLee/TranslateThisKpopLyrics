@@ -4,15 +4,15 @@
 <% if current_user.try(:admin?) %>
     <%= form_with(model: @group, local: true) do |f| %>
         <%= f.label :title, "Group Title: "%>
-
+        <%= f.hidden_field :_destroy %>
         <span>
              <%= f.collection_select(:title, Group.all, :id, :title) %>
-             <%= f.hidden_field :_destroy %>
+             
         </span>  if you don't find from the list, create yourself:
 
-        <%= f.text_field :title %><br>
+        <%= f.text_field :title, value: @group.title unless @group.title == nil %><br>
         <%= f.label :profile, "Group Profile: "%>
-        <%= f.text_field :profile %><br><br>
+        <%= f.text_field :profile, value: @group.profile unless @group.profile == nil %><br><br>
         <%= f.fields_for :albums do |af| %>
             <%= af.label :title, "Album Title: " %>
 

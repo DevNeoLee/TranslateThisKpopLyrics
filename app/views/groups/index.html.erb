@@ -8,20 +8,29 @@
 <% @groups.each do |group| %>
     <p class="group">Group Title: <%= group.title %></p>
     <p>Profile: <%= group.profile %></p>
-        <%= link_to "edit", edit_group_path(group) %> |
-        <%= link_to "delete", group_path(group), method: :delete %>
+        <% if current_user.try(:admin?) %>
+            <%= link_to "edit", edit_group_path(group) %> |
+            <%= link_to "delete", group_path(group), method: :delete %>
+        <% end %>
     <% group.albums.each do |album| %>
         <p class="album">album name: <%=album.title %></p>
         <p>release date: <%=album.release_date %></p>
-        <%= link_to "edit" %> |
-        <%= link_to "delete", album_path(album), method: :delete %>
+        <% if current_user.try(:admin?) %>
+            <%= link_to "edit" %> |
+            <%= link_to "delete", album_path(album), method: :delete %><br>
+        <% end %>
+        --------------------------------------------------
         <% album.songs.each do |song| %>
             <p class="song">song title: <%= song.title %></p>
             <p>korean lyrics: <%= song.korean_lyrics %></p>
             <p>romaja lyrics: <%= song.romaja_lyrics %></p>
             <p>album id: <%= song.album_id %></p>
-            <%= link_to "edit" %> |
-            <%= link_to "delete", song_path(song), method: :delete %>
+             <% if current_user.try(:admin?) %>
+                <%= link_to "edit" %> |
+                <%= link_to "delete", song_path(song), method: :delete %><br><br>
+            <% end %>
+            <%=link_to "translate this song to your own language", song_path(song) %><br>
+            --------------------------------------------------
         <% end %>
     <% end %>
 <% end %>

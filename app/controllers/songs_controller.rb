@@ -11,9 +11,9 @@ class SongsController < ApplicationController
     @song.albums.build.songs.build 
   end
 
-  # def show 
-  #   @song = Song.find(Song_params[:id])
-  # end
+  def show 
+    @song = Song.find(song_params[:id])
+  end
 
   def edit 
     @song = Song.find(song_params[:id])
